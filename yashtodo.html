@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Todo App</title>
+
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- jQuery -->
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+</head>
+
+<body class="bg-gray-200">
+
+  <div class="w-96 mx-auto mt-20 bg-white p-5 rounded shadow">
+
+    <h1 class="text-center text-lg font-bold mb-4">TODO LIST</h1>
+
+    <div class="flex mb-5">
+        <input id="taskInput" type="text" placeholder="todo task"
+        class="border border-purple-500 w-full px-2 py-2 rounded">
+
+      <button
+        id="addBtn"
+        class="ml-3 bg-purple-500 text-white px-3 rounded"
+      > + </button>
+
+    </div>
+
+    <ul id="taskList"> 
+      
+    </ul>
+
+  </div>
+
+  <script src="yashtodo.js"></script>
+</body>
+</html>

@@ -1,0 +1,69 @@
+<script>
+$(document).ready(function () {
+
+  let todos = [];
+  let todoIdCounter = 0;
+
+  // ---------- LOAD FROM LOCAL STORAGE ----------
+  function loadTodos() {
+    const storedTodos = localStorage.getItem("todos");
+    if (storedTodos) {
+      todos = JSON.parse(storedTodos);
+      todoIdCounter = todos.length ? Math.max(...todos.map(t => t.id)) + 1 : 0;
+      renderTodos();
+    }
+    updateEmptyState();
+  }
+
+  // ---------- SAVE TO LOCAL STORAGE ----------
+  function saveTodos() {
+    localStorage.setItem("todos", JSON.stringify(todos));
+  }
+
+  // ---------- EMPTY STATE ----------
+  function updateEmptyState() {
+    if (todos.length === 0) {
+      $("#todoList").html(`<p id="emptyState" class="text-center text-gray-400">No tasks yet</p>`);
+    } else {
+      $("#emptyState").remove();
+    }
+  }
+
+  // ---------- RENDER TODOS ----------
+  function renderTodos() {
+    $("#todoList").empty();
+    todos.forEach(todo => {
+      $("#todoList").append(`
+        <li data-id="${todo.id}" class="flex items-center justify-between border-b pb-4 group">
+          <div class="flex items-center gap-4">
+            <input type="checkbox" class="todo-check w-5 h-5" ${todo.completed ? "checked" : ""}>
+            <span class="todo-text ${todo.completed ? "line-through text-gray-400" : "text-gray-800"}">
+              ${todo.text}
+            </span>
+          </div>
+
+          <div class="flex gap-3 opacity-0 group-hover:opacity-100">
+            <i class='bx bx-pencil edit cursor-pointer'></i>
+            <i class='bx bx-trash delete cursor-pointer'></i>
+          </div>
+        </li>
+      `);
+    });
+  }
+
+  // ---------- ADD TODO ----------
+  function addTodo(text) {
+    if (text.trim() === "") {
+      alert("Please enter a todo item");
+      return;
+    }
+
+    const todo = {
+      id: todoIdCounter++,
+      text: text.trim(),
+      completed: false
+    };
+
+    todos.push(todo);
+    saveTodos();
+    renderTodos()

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Todo List</title>
+
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- jQuery -->
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+  <!-- Icons -->
+  <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+</head>
+
+<body class="bg-white min-h-screen flex justify-center pt-20">
+
+  <div class="w-[720px]">
+    <!-- Header -->
+    <h1 class="text-center text-2xl font-semibold tracking-wide mb-10">
+      TODO LIST
+    </h1>
+
+    <!-- Input -->
+    <div class="flex items-center gap-4 mb-8">
+      <input
+        id="todoInput"
+        type="text"
+        placeholder="Add note..."
+        class="flex-1 border border-blue-400 rounded-lg px-4 py-3 outline-none focus:ring-1 focus:ring-blue-400 text-gray-700"
+      />
+
+      <button
+        id="addTodo"
+        class="w-12 h-12 rounded-full bg-blue-500 text-white text-2xl flex items-center justify-center hover:bg-blue-600 transition"
+      >
+        +
+      </button>
+    </div>
+
+    <!-- Empty Todo List -->
+    <ul id="todoList" class="space-y-6">
+      <!-- No pre-added tasks -->
+    </ul>
+  </div>
+
+  <!-- jQuery Logic -->
+  <script>
+    $(document).ready(function () {
+
+      $("#addTodo").on("click", function () {
+        const text = $("#todoInput").val().trim();
+        if (!text) return;
+
+        $("#todoList").append(`
+          <li class="flex items-center justify-between border-b pb-4 group">
+            <div class="flex items-center gap-4">
+              <input type="checkbox" class="w-5 h-5 accent-blue-500 todo-check">
+              <span class="font-medium text-gray-800 todo-text">${text}</span>
+            </div>
+
+            <div class="flex gap-3 opacity-0 group-hover:opacity-100 transition">
+              <i class='bx bx-pencil cursor-pointer edit text-gray-500'></i>
+              <i class='bx bx-trash cursor-pointer delete text-gray-500'></i>
+            </div>
+          </li>
+        `);
+
+        $("#todoInput").val("");
+      });
+
+      // Toggle complete
+      $(document).on("change", ".todo-check", function () {
+        $(this)
+          .siblings(".todo-text")
+          .toggleClass("line-through text-gray-400");
+      });
+
+      // Delete
+      $(document).on("click", ".delete", function () {
+        $(this).closest("li").remove();
+      });
+
+      // Edit
+      $(document).on("click", ".edit", function () {
+        const textEl = $(this).closest("li").find(".todo-text");
+        const newText = prompt("Edit task", textEl.text());
+        if (newText) textEl.text(newText);
+      });
+
+    });
+  </script>
+
+</body>
+</html>
